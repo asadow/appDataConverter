@@ -6,54 +6,56 @@
 #' @noRd
 #'
 #'
-ui_upload <- sidebarLayout(
-
-  sidebarPanel(
-    fileInput("upload", "Upload CP_ESA_WO_REPORT"),
-    numericInput(
-      "n",
-      "Rows to Preview",
-      value = 1,
-      min = 1,
-      step = 1
-    ),
-  ),
-  mainPanel(
-    card(
-      height = 300,
-      card_title("Unclean Data"),
-      tableOutput("preview1"),
-    ),
-  )
-)
-
-
-ui_clean <- sidebarLayout(
-  sidebarPanel(
-    downloadButton("download1", "Download ESA-Ready Data")
-  ),
-  mainPanel(
-    card(
-      card_title("ESA-Ready Data"),
-      tableOutput("preview2")
-    )
-  )
+theme <- bslib::bs_theme(
+  version = 5,
+  bg = "#FFFFFF",
+  fg = "#000000",
+  primary = "#A30808",
+  secondary = "#F8D505"
 )
 
 app_ui <- function(request) {
+
+  ui_upload <- sidebarLayout(
+    sidebarPanel(
+      fileInput("upload", "Upload CP_ESA_WO_REPORT"),
+      numericInput("n", "Rows to Preview", value = 1, min = 1, step = 1),
+    ),
+    mainPanel(
+      card(
+        height = 300,
+        card_header(card_title("Unclean Data")),
+        card_body_fill(tableOutput("preview1")),
+      ),
+    )
+  )
+
+  ui_clean <- sidebarLayout(
+    sidebarPanel(
+      downloadButton("download1", "Download ESA-Ready Data")
+    ),
+    mainPanel(
+      card(
+        height = 300,
+        card_header(card_title("ESA-Ready Data")),
+        card_body_fill(tableOutput("preview2"))
+      )
+    )
+  )
+
+  logo <- img(src = "www/Physical Resources_Full Colour.jpg", width = 300)
+
+  header <- h1(
+    class = "lead text-center bg-black text-white bg-gradient my-0 p-3",
+    tags$b("Data Converter", br(), span("Megamation to ESA")),
+  )
+
   tagList(
-    # Leave this function for adding external resources
     golem_add_external_resources(),
     page_fill(
       theme = theme,
-      img(
-        src = "Physical Resources_Full Colour.jpg",
-        width = 300
-      ),
-      h1(
-        class = "lead text-center bg-black text-white bg-gradient my-0 p-3",
-        tags$b("Data Converter", br(), span("Megamation to ESA")),
-      ),
+      logo,
+      header,
       ui_upload,
       ui_clean,
     )

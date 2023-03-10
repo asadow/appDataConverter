@@ -5,7 +5,12 @@
 #' @import shiny
 #' @noRd
 app_server <- function(input, output, session) {
-  data <- reactive({
+
+  iv <- shinyvalidate::InputValidator$new()
+  iv$add_rule("n", shinyvalidate::sv_required(test = is.numeric))
+  iv$enable()
+
+  .data <- reactive({
     req(input$upload)
 
     ext <- tools::file_ext(input$upload$name)
@@ -15,6 +20,8 @@ app_server <- function(input, output, session) {
            validate("Invalid file; Please upload a .xlsx or .csv file")
     )
   })
+
+  .clean <- reactive(.data() |> clean_for_esa())
 
   date_range <- reactive({
     req(input$upload)
@@ -29,32 +36,26 @@ app_server <- function(input, output, session) {
   })
 
   output$preview1 <- renderTable({
-    head(data(), input$n)
+    head(.data(), input$n)
+  })
+
+  output$preview2 <- renderTable({
+    head(.clean(), input$n)
   })
 
   output$download <- downloadHandler(
     filename = function() {
-      paste0(input$dataset, ".csv")
+      glue::glue("{date_range$start_date}_to_{date_range$end_date}.xls")
     },
     content = function(file) {
       writeWorksheetToFile(
         file,
-        data(),
+        data = .clean(),
         sheet = "Data"
       )
     }
   )
-#
-#
-#   ## Export: ----
-#
-#   writeWorksheetToFile(
-#     file = glue("{dir_esa}/{range$start_date}_to_{range$end_date}.xls"),
-#     data = esa,
-#     sheet = "Data"
-#   )
-#
-#   message <- glue("{range$start_date} ESA Online uploadable file saved in {ui_path(dir_esa)}")
-#   ui_done(message)
+  #   message <- glue("{range$start_date} ESA Online uploadable file saved in {ui_path(dir_esa)}")
+  #   ui_done(message)
 
 }

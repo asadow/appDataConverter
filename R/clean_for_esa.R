@@ -7,15 +7,7 @@
 #'
 #' @export
 
-esa_clean_export <- function(.df){
-
-  # range <- readxl::read_excel(path_mm, n_max = 3) |>
-  #   t() |>
-  #   as_tibble(.name_repair = "unique") |>
-  #   suppressMessages() |>
-  #   row_to_names(1) |>
-  #   clean_names() |>
-  #   filter(!is.na(start_date))
+clean_for_esa <- function(.df){
 
   ## Merge with sitenumbers: ----
 
@@ -25,7 +17,7 @@ esa_clean_export <- function(.df){
     dplyr::rename(bldg_no = building)
 
   esa <- mm |>
-    dplyr::left_join(pr::sitenumber, by = "bldg_no", suffix = c("_mm", "_css"))
+    dplyr::left_join(sitenumber, by = "bldg_no", suffix = c("_mm", "_css"))
 
   ## Clean: ----
   ## Create and check formatting requirements
@@ -36,9 +28,9 @@ esa_clean_export <- function(.df){
 
   esa <- esa |>
     dplyr::mutate(
-      date = format(mdy(date), "%d/%m/%Y"),
+      date = format(lubridate::mdy(date), "%d/%m/%Y"),
       work_description = glue::glue("{work_description} - {closing_comments}"),
-      # First line in case_when() has priority
+      ## First line in case_when() has priority
       performed_by = dplyr::case_when(
         !is.na(contractor_name) ~ "Other",
         !is.na(issue_to_name) ~ "Customer",
@@ -59,9 +51,9 @@ esa_clean_export <- function(.df){
       work_date = date,
       work_order = w_o_number
     ) |>
-    assert(function(x) nchar(x) <= 64, work_location) |>
-    assert(function(x) nchar(x) <= 7500, work_description) |>
-    assert(function(x) nchar(x) <= 10, work_order)
+    assertr::assert(function(x) nchar(x) <= 64, work_location) |>
+    assertr::assert(function(x) nchar(x) <= 7500, work_description) |>
+    assertr::assert(function(x) nchar(x) <= 10, work_order)
 
   esa <- esa |>
     dplyr::select(
