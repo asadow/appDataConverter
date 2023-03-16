@@ -17,7 +17,7 @@ Megamation export and watch it become cleaned for upload to the ESA
 (Electrical Safety Authority) Online website. The download button will
 download it straight to your computer.
 
-![esaApp](./Screenshot%202023-03-16%20160257.jpg)
+![esaApp](./screenshot.jpg)
 
 ## Installation
 
