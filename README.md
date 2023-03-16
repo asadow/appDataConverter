@@ -1,0 +1,28 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# esaApp
+
+<!-- badges: start -->
+
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![Codecov test
+coverage](https://codecov.io/gh/asadow/esaApp/branch/master/graph/badge.svg)](https://app.codecov.io/gh/asadow/esaApp?branch=master)
+[![R-CMD-check](https://github.com/asadow/esaApp/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/asadow/esaApp/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+esaApp is a Shiny application/R package that allows you to upload a
+Megamation export and watch it become cleaned for upload to the ESA
+(Electrical Safety Authority) Online website. The download button will
+download it straight to your computer.
+
+![esaApp](./Screenshot%202023-03-16%20160257.jpg)
+
+## Installation
+
+You can install the development version of esaApp like so:
+
+``` r
+install_github("asadow/esaApp")
+```
