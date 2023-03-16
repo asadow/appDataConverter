@@ -12,19 +12,27 @@ BugReports: https://github.com/asadow/esaApp/issues
 Depends: 
     R (>= 2.10)
 Imports: 
+    assertr,
     bslib,
     config (>= 0.3.1),
     dplyr,
+    DT,
     glue,
     golem (>= 0.3.5),
+    htmltools,
     janitor,
+    lubridate,
     readxl,
     shiny (>= 1.7.4),
+    shinyvalidate,
     stringr,
     tibble,
     tools,
-    vroom
+    utils,
+    writexl,
+    zeallot
 Suggests: 
+    covr,
     spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
