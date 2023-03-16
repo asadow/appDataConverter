@@ -28,7 +28,9 @@ fct_clean_for_esa <- function(.data){
 add_site_number <- function(.data) {
   .data |>
     janitor::clean_names() |>
-    dplyr::filter(.data$add_to_electrical_safety_authority_reporting == "Yes") |>
+    dplyr::filter(
+      .data$add_to_electrical_safety_authority_reporting == "Yes"
+      ) |>
     dplyr::rename(bldg_no = .data$building) |>
     dplyr::left_join(
       esaApp::sitenumber,
@@ -48,7 +50,9 @@ add_site_number <- function(.data) {
 mutate_for_esa <- function(.data) {
   .data |>
     dplyr::mutate(
-      work_description = glue::glue("{.data$work_description} - {.data$closing_comments}"),
+      work_description = glue::glue(
+        "{.data$work_description} - {.data$closing_comments}"
+        ),
       date = format(lubridate::mdy(.data$date), "%d/%m/%Y"),
       ## type of performer
       performed_by = dplyr::case_when(
@@ -95,6 +99,7 @@ assert_esa_reqs <- function(.data) {
 order_for_esa <- function(.data) {
   .data |>
     dplyr::select(
+      any_of(c(
       "site_number",
       "site_identifier",
       "logbook_name",
@@ -106,6 +111,7 @@ order_for_esa <- function(.data) {
       "work_date",
       "performed_by",
       "Contractor/Employee"
+      ))
     ) |>
     dplyr::arrange(.data$work_date, .data$site_number) |>
     dplyr::rename_with(

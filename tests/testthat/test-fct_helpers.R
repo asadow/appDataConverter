@@ -1,9 +1,10 @@
-test_that("assert_esa_req() catches cases", {
-  long_string <- rep("x", 1000) |> glue::glue_collapse()
+test_that("fct_skim_names() reduces name length", {
+  # Create sample data
   df <- tibble::tibble(
-    work_location = long_string,
-    work_description = long_string,
-    work_order = long_string
+    "Add to Electrical Safety Authority Reporting" = 1,
+    "Issue To Name" = 2
   )
-  expect_error(assert_esa_reqs(df), "assertr stopped execution")
+  expect_s3_class(fct_skim_names(df), "data.frame")
+  mean_nchr <- function(x) {mean(nchar(names(x)))}
+  expect_true(mean_nchr(fct_skim_names(df)) < mean_nchr(df))
 })

@@ -33,3 +33,13 @@ test_that("utils_date_range() retrieves ymd characters", {
   expect_equal(utils_date_range(path_xlsx), exp_date_range)
   expect_s3_class(utils_date_range(path_xlsx), "data.frame")
 })
+
+test_that("utils_DT() gives a data table", {
+  # Create sample data
+  df <- tibble::tibble(
+    x = c(1:3),
+    y = c(1:3)
+  )
+
+  expect_s3_class(utils_DT(df, 5), "datatables")
+})
