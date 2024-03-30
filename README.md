@@ -13,16 +13,7 @@ coverage](https://codecov.io/gh/asadow/esaApp/branch/master/graph/badge.svg)](ht
 <!-- badges: end -->
 
 esaApp is a Shiny application/R package that allows you to upload a
-Megamation export and watch it become cleaned for upload to the ESA
-(Electrical Safety Authority) Online website. The download button will
-download it straight to your computer.
+Megamation export and see its conversion to a format acceptable by the ESA
+Electrical Safety Authority of Ontario, Canada. The file can then be downloaded for manual upload to their website.
 
 ![esaApp](./screenshot.jpg)
-
-## Installation
-
-You can install the development version of esaApp like so:
-
-``` r
-install_github("asadow/esaApp")
-```
